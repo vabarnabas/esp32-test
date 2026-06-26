@@ -10,15 +10,17 @@ static volatile bool pressedFlag = false;
 static void onTurn(long value) {
   static bool inited = false;
   static long last = 0;
-  static long remainder = 0;
-  if (!inited) { last = value; inited = true; return; }
 
-  remainder += (value - last);
+  if (!inited) {
+    last = value;
+    inited = true;
+    return;
+  }
+
+  long diff = value - last;
   last = value;
 
-  // emit one menu step per 2 units of raw movement
-  while (remainder >= 2)  { accumulated++; remainder -= 2; }
-  while (remainder <= -2) { accumulated--; remainder += 2; }
+  accumulated += diff;   // one menu step for each reported step
 }
 
 static void onPress(unsigned long /*durationMs*/) {
