@@ -34,22 +34,17 @@ static void renderSerial(const MenuView& v) {
 
 void setup() {
   Serial.begin(115200);
-  Serial.println("setup: start");
   displayBegin();
-  Serial.println("setup: display done");
+  drawText("Display Setup Complete", DisplayTextMode::CENTER, MultilineMode::NORMAL);
   wifiBegin();
-  Serial.println("setup: wifi done");
   encoderBegin();
-  Serial.println("setup: encoder done");
-  menuBegin(&rootPage, renderEInk);
-  Serial.println("setup: menu done");
 }
 void loop() {
   wifiLoop();
   int d = encoderTakeDelta();
-  while (d > 0) { menuNavigateDown(); d--; }
-  while (d < 0) { menuNavigateUp();   d++; }
-  if (encoderPressed()) menuSelect();
-  menuRender();                          // <-- the missing piece
+  // while (d > 0) { menuNavigateDown(); d--; }
+  // while (d < 0) { menuNavigateUp();   d++; }
+  // if (encoderPressed()) menuSelect();
+  // menuRender();                          // <-- the missing piece
 }
 
